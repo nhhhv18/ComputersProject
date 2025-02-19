@@ -4,6 +4,7 @@ import interfaces.DeviceIdentifiable;
 import exceptions.PrinterOutOfPaperException;
 import exceptions.NotReadableFileException;
 import exceptions.InvalidConnectionException;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 @EqualsAndHashCode
 @ToString
+@Builder
 public final class Printer extends Device implements DeviceIdentifiable, AutoCloseable {
 
     private static final Logger logger = LogManager.getLogger(Printer.class);

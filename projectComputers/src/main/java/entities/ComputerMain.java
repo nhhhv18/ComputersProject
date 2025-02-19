@@ -6,6 +6,7 @@ package entities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import interfaces.ObserverMonitor;
 import lombok.Builder;
 
 import java.lang.reflect.*;
@@ -21,31 +22,39 @@ import static entities.OperatingSystem.OperatingSystemType.*;
 import static entities.Storage.StorageType.*;
 
 
-@Builder
-public class ComputerMain {
+public class ComputerMain implements ObserverMonitor {
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
          final Logger logger = LogManager.getLogger(ComputerMain.class);
 
-         Computer computer = new Computer("ComputerSolvd");
-         computer.handlePower(true);
-         
-         Monitor monitor = Monitor.builder()
-        		    .name("Dell Ultrasharp")
-        		    .brand("Dell")
-        		    .yearOfProduction(2022)
-        		    .size(27)
-        		    .build();
-
-
-         // Display full device details
-         monitor.displayFullDeviceDetails();
-         
          System.out.println();
-         computer.handlePower(false);
-         
-         
-         
-         
+         Computer computer1 = new Computer("ComputerSolvd");
+         computer1.handlePower(true);
+
+         // Create and register the monitor as a subject
+         Monitor monitor = new Monitor("Dell Ultrasharp", "Dell", 2022, 27);
+
+         // Registering ComputerMain as an observer of the monitor
+         monitor.registerObserver(new ComputerMain());
+
+         // Displaying initial details
+         monitor.displayFullDeviceDetails();
+
+         // Turning the monitor on and off
+         monitor.turnOnMonitor();  // This will notify observers
+         monitor.turnOffMonitor(); // This will notify observers
+         System.out.println();
+         // Turning off the computer after operation
+         computer1.handlePower(false);
+     }
+
+     @Override
+     public void update(boolean isOn) {
+         // Responding to the monitor state change
+         if (isOn) {
+             System.out.println("The monitor is now ON.");
+         } else {
+             System.out.println("The monitor is now OFF.");
+         }
          
          
          /*

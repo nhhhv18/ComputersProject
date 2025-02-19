@@ -1,10 +1,16 @@
 package entities;
 import interfaces.DeviceIdentifiable;
+import interfaces.ObserverMonitor;
+import interfaces.SubjectMonitor;
 import exceptions.NotVisibleMonitorException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,11 +18,12 @@ import org.apache.logging.log4j.Logger;
 @ToString
 @Builder
 @AllArgsConstructor
-public final class Monitor extends Device implements  DeviceIdentifiable {
+public final class Monitor extends Device implements  DeviceIdentifiable, SubjectMonitor {
 
     private static final Logger logger = LogManager.getLogger(Monitor.class);
     protected final int size;  // final variable (we can't change a monitor's size, but the monitor)
     private boolean isOn;
+    private List<ObserverMonitor> observers = new ArrayList<>();
     
     public Monitor(String name, String brand, int yearOfProduction, int size) {
         super(name, brand, yearOfProduction);
@@ -33,10 +40,32 @@ public final class Monitor extends Device implements  DeviceIdentifiable {
         }
     }
 
-    public void turnOffMonitor() {
-        this.isOn = false;
-    }
-    
+	 public void turnOnMonitor() {
+	        this.isOn = true;
+	        notifyObservers();  // Notify observerMonitors when the monitor is turned on
+	    }
+
+	    public void turnOffMonitor() {
+	        this.isOn = false;
+	        notifyObservers();  // Notify observerMonitors when the monitor is turned off
+	    }
+
+	    @Override
+	    public void registerObserver(ObserverMonitor observerMonitor) {
+	        observers.add(observerMonitor);
+	    }
+
+	    @Override
+	    public void removeObserver(ObserverMonitor observerMonitor) {
+	        observers.remove(observerMonitor);
+	    }
+
+	    @Override
+	    public void notifyObservers() {
+	        for (ObserverMonitor observerMonitor : observers) {
+	            observerMonitor.update(isOn);  // Notify all observerMonitors with the monitor's current state
+	        }
+	        }
     
     public void displayFullDeviceDetails() {
         logger.info("Monitor: " + name + " | Brand: " + brand + " | Year of Production: " + yearOfProduction + " | Size: " + size + " inches");

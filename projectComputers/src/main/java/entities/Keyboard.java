@@ -1,5 +1,6 @@
 package entities;
 import interfaces.DeviceIdentifiable;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
@@ -7,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 @EqualsAndHashCode
 @ToString
+@Builder
 public final class Keyboard extends Device implements  DeviceIdentifiable {
 
     private static final Logger logger = LogManager.getLogger(Keyboard.class);
