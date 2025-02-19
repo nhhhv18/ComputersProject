@@ -5,6 +5,9 @@ package entities;
 //import exceptions.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import lombok.Builder;
+
 import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,7 @@ import static entities.OperatingSystem.OperatingSystemType.*;
 import static entities.Storage.StorageType.*;
 
 
-
+@Builder
 public class ComputerMain {
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
          final Logger logger = LogManager.getLogger(ComputerMain.class);
@@ -26,18 +29,16 @@ public class ComputerMain {
          Computer computer = new Computer("ComputerSolvd");
          computer.handlePower(true);
          
-         System.out.println();
-         
-         DeviceFactory deviceFactory = new DeviceFactory();
- 
-         Device printer = deviceFactory.createDevice(DeviceType.PRINTER, "HP LaserJet", "HP", 2020, 0, false, null);
-         printer.displayDeviceDetails();
-         
-         Device monitor = deviceFactory.createDevice(DeviceType.MONITOR, "Dell Ultrasharp", "Dell", 2022, 27, false, null);
-         monitor.displayDeviceDetails();
-         
-         Device keyboard = deviceFactory.createDevice(DeviceType.KEYBOARD, "Logitech G915", "Logitech", 2021, 0, true, "Mechanical");
-         keyboard.displayDeviceDetails();
+         Monitor monitor = Monitor.builder()
+        		    .name("Dell Ultrasharp")
+        		    .brand("Dell")
+        		    .yearOfProduction(2022)
+        		    .size(27)
+        		    .build();
+
+
+         // Display full device details
+         monitor.displayFullDeviceDetails();
          
          System.out.println();
          computer.handlePower(false);
