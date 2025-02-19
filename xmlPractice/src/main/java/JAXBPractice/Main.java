@@ -31,7 +31,7 @@ public class Main {
 
   public static void marshal() throws JAXBException, IOException {
 	  
-	  Policy P10001 = new Policy(10001, new Customer(20001, "Yana", "Nehaeva", 27), new Date("12/12/2024"), new Date("12/12/2025"), 450);
+	  Policy P10001 = new Policy(10001, new Customer(20001, "Yana", "Nehaeva", 27), "12/12/2024", "12/12/2025", 450);
 	  Policy P10002 = new Policy(10002, new Customer(20002,"Akakii", "Borisovich", 42 ), new Date("28/10/2024"), new Date("28/10/2025"), 350);
 
       Policies policies = new Policies();

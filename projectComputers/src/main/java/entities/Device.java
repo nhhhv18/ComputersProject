@@ -2,9 +2,11 @@ package entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
 // Abstract Class
 public abstract class Device {
     protected String name;

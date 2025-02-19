@@ -35,6 +35,10 @@ public class Computer {
         logger.info("Computer class loaded.");
     }   */
 
+    public Computer (String computerName) {
+    	this.computerName = computerName;;
+    }
+    
     public Computer(String computerName, OperatingSystem operatingSystem, List<Device> devices, List<Storage> storageDevices) {
         this.computerName = computerName;
         this.operatingSystem = operatingSystem;

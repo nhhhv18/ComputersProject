@@ -16,12 +16,12 @@ public class Policy {
 
 	private int id; 
 	private Customer customer;
-	private Date startDate;
-	private Date endDate;
+	private Example startDate;
+	private Example endDate;
 	private int coverageAmount;
 	
 	
-	   public Policy(int id, Customer customer, Date startDate, Date endDate, int coverageAmount) {
+	   public Policy(int id, Customer customer, Example startDate, Example endDate, int coverageAmount) {
 	        this.id = id;
 	        this.customer = customer;
 	        this.startDate = startDate;
@@ -51,22 +51,22 @@ public class Policy {
 	    }
 
 	    
-	    public Date getStartDate() {
+	    public Example getStartDate() {
 	        return startDate;
-	    }
+	    };
 	    @XmlJavaTypeAdapter(DateAdapter.class)
 	    @XmlElement
-	    public void setStartDate(Date startDate) {
+	    public void setStartDate(Example startDate) {
 	        this.startDate = startDate;
 	    }
 	    
 	    
-	    public Date getEndDate() {
+	    public Example getEndDate() {
 	        return endDate;
 	    }
 	    @XmlJavaTypeAdapter(DateAdapter.class)
 	    @XmlElement
-	    public void setEndDate(Date endDate) {
+	    public void setEndDate(Example endDate) {
 	        this.endDate = endDate;
 	    }
 	    

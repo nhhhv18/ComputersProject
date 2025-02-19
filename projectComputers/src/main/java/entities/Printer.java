@@ -18,6 +18,11 @@ public final class Printer extends Device implements DeviceIdentifiable, AutoClo
     public String file;
     private boolean hasPaper;
     private boolean isConnected;
+    
+
+    public Printer(String name, String brand, int yearOfProduction) {
+        super(name, brand, yearOfProduction);
+    }
 
 
     public Printer(String name, String brand, int yearOfProduction, String file) {
@@ -26,7 +31,9 @@ public final class Printer extends Device implements DeviceIdentifiable, AutoClo
         this.hasPaper = true; // Assume printer starts with paper
     }
 
-    public void handleConnection(Boolean state) {
+
+
+	public void handleConnection(Boolean state) {
         // Lambda implementation for Connectable with Boolean type
         Connectable<Boolean> connectionHandler = s -> {
             if (s) {
@@ -63,6 +70,11 @@ public final class Printer extends Device implements DeviceIdentifiable, AutoClo
 
     public void setHasPaper(boolean hasPaper) {
         this.hasPaper = hasPaper;
+    }
+    
+
+    public void displayFullDeviceDetails() {
+        logger.info("Printer: " + name + " | Brand: " + brand + " | Year of Production: " + yearOfProduction);
     }
     
     @Override

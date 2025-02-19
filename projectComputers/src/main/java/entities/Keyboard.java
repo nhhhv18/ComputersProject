@@ -12,7 +12,7 @@ public final class Keyboard extends Device implements  DeviceIdentifiable {
     private static final Logger logger = LogManager.getLogger(Keyboard.class);
     protected final boolean backlit; // final variable (we can't change a keyboards's backlit, but the keyboard)
     protected final String keyboardType;
-
+  
 
     public Keyboard(String name, String brand, int yearOfProduction, boolean backlit, String keyboardType) {
         super(name, brand, yearOfProduction);
@@ -20,11 +20,14 @@ public final class Keyboard extends Device implements  DeviceIdentifiable {
         this.keyboardType = keyboardType;
     }
 
-    @Override
-    public void displayDeviceDetails() {
+
+    public void displayFullDeviceDetails() {
         logger.info("Keyboard: " + name + " | Brand: " + brand + " | Year of Production: " + yearOfProduction + " | Backlit: " + (backlit ? "Yes" : "No")+ " | Type: " + keyboardType);
     }
-
+    @Override
+    public void displayDeviceDetails() {
+        logger.info("Keyboard: " + name + " | Brand: " + brand + " | Year of Production: " + yearOfProduction);
+    }
     @Override
     public String getDeviceName() {
         return name;
