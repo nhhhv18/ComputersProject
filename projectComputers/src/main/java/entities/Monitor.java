@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 @ToString
 @Builder
 @AllArgsConstructor
-public final class Monitor extends Device implements  DeviceIdentifiable, SubjectMonitor {
+public final class Monitor extends Device implements  DeviceIdentifiable {
 
     private static final Logger logger = LogManager.getLogger(Monitor.class);
     protected final int size;  // final variable (we can't change a monitor's size, but the monitor)
@@ -31,42 +31,11 @@ public final class Monitor extends Device implements  DeviceIdentifiable, Subjec
       //  this.isOn = true; // Assume monitor starts on
     }
    
-    
-
-
-	public void checkVisibility() throws NotVisibleMonitorException {
-        if (!isOn) {
-            throw new NotVisibleMonitorException("The monitor is not visible because it is off.");
-        }
+    public void turnOffMonitor() {
+        this.isOn = false;
     }
 
-	 public void turnOnMonitor() {
-	        this.isOn = true;
-	        notifyObservers();  // Notify observerMonitors when the monitor is turned on
-	    }
 
-	    public void turnOffMonitor() {
-	        this.isOn = false;
-	        notifyObservers();  // Notify observerMonitors when the monitor is turned off
-	    }
-
-	    @Override
-	    public void registerObserver(ObserverMonitor observerMonitor) {
-	        observers.add(observerMonitor);
-	    }
-
-	    @Override
-	    public void removeObserver(ObserverMonitor observerMonitor) {
-	        observers.remove(observerMonitor);
-	    }
-
-	    @Override
-	    public void notifyObservers() {
-	        for (ObserverMonitor observerMonitor : observers) {
-	            observerMonitor.update(isOn);  // Notify all observerMonitors with the monitor's current state
-	        }
-	        }
-    
     public void displayFullDeviceDetails() {
         logger.info("Monitor: " + name + " | Brand: " + brand + " | Year of Production: " + yearOfProduction + " | Size: " + size + " inches");
     }

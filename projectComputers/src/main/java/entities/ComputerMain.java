@@ -16,13 +16,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
+import exceptions.*;
 
 
 import static entities.OperatingSystem.OperatingSystemType.*;
 import static entities.Storage.StorageType.*;
 
 
-public class ComputerMain implements ObserverMonitor {
+public class ComputerMain {
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
          final Logger logger = LogManager.getLogger(ComputerMain.class);
 
@@ -30,31 +31,48 @@ public class ComputerMain implements ObserverMonitor {
          Computer computer1 = new Computer("ComputerSolvd");
          computer1.handlePower(true);
 
-         // Create and register the monitor as a subject
-         Monitor monitor = new Monitor("Dell Ultrasharp", "Dell", 2022, 27);
+         
+         Printer printer = new Printer("HP Printer", "HP", 2022, "Document1.txt");
 
-         // Registering ComputerMain as an observer of the monitor
-         monitor.registerObserver(new ComputerMain());
+         // Wrap the printer with a security decorator and simulate an authenticated user
+         Printer securityPrinter = new SecurityPrinterDecorator(printer, true);  // User is authenticated
 
-         // Displaying initial details
-         monitor.displayFullDeviceDetails();
+         securityPrinter.handleConnection(true);
+         try {
+             securityPrinter.printFile(); // Will succeed as the user is authenticated
+         } catch (PrinterOutOfPaperException | NotReadableFileException | SecurityException e) {
+             logger.error("Error: " + e.getMessage());
+         }
 
-         // Turning the monitor on and off
-         monitor.turnOnMonitor();  // This will notify observers
-         monitor.turnOffMonitor(); // This will notify observers
+         /* Now simulate a non-authenticated user
+         Printer nonAuthenticatedSecurityPrinter = new SecurityPrinterDecorator(printer, false);  // User is NOT authenticated
+
+         try {
+             nonAuthenticatedSecurityPrinter.printFile(); // Will fail as the user is not authenticated
+         } catch (PrinterOutOfPaperException | NotReadableFileException | SecurityException e) {
+             logger.error("Error: " + e.getMessage());
+         }
+         */
+
+         System.out.println();
+         // Turning off the printer connection (for authenticated user only)
+         securityPrinter.close(); // This will work
+        // nonAuthenticatedSecurityPrinter.close(); 
+         
+         
+         
+         
+         
+         
+         
+         
          System.out.println();
          // Turning off the computer after operation
          computer1.handlePower(false);
-     }
+    }
+   }
+     
 
-     @Override
-     public void update(boolean isOn) {
-         // Responding to the monitor state change
-         if (isOn) {
-             System.out.println("The monitor is now ON.");
-         } else {
-             System.out.println("The monitor is now OFF.");
-         }
          
          
          /*
@@ -103,5 +121,4 @@ public class ComputerMain implements ObserverMonitor {
         computer.handlePower(false);
         */
      
-    }
-}
+
